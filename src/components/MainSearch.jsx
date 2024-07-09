@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
 import Job from "./Job";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -8,6 +8,8 @@ import { useState } from "react";
 const MainSearch = () => {
   const [query, setQuery] = useState("");
   const jobs = useSelector(state => state.jobs.content);
+  const isLoading = useSelector(state => state.jobs.isLoading);
+  const hasError = useSelector(state => state.jobs.hasError);
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -35,9 +37,14 @@ const MainSearch = () => {
           <Link to={"/favorites"}>Favorite companies</Link>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobs.map(jobData => (
-            <Job key={jobData._id} data={jobData} />
-          ))}
+          {isLoading === false ? (
+            jobs.map(jobData => <Job key={jobData._id} data={jobData} />)
+          ) : (
+            <div className="d-flex justify-content-center">
+              <Spinner variant="primary" />
+            </div>
+          )}
+          {hasError && <h2>Sorry, there was an error, try again later!</h2>}
         </Col>
       </Row>
     </Container>
