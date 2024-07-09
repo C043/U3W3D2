@@ -23,5 +23,22 @@ export const getJobsAction = query => {
 };
 
 export const companyJobsAction = data => ({ type: COMPANY_JOBS, payload: data });
+export const getCompanyJobsAction = params => {
+  const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?company=";
+
+  return async dispatch => {
+    try {
+      const response = await fetch(baseEndpoint + params.company);
+      if (response.ok) {
+        const { data } = await response.json();
+        dispatch(companyJobsAction(data));
+      } else {
+        alert("Error fetching results");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 export const addToFavoritesAction = data => ({ type: ADD_TO_FAVORITES, payload: data });
 export const removeFromFavoritesAction = data => ({ type: REMOVE_FROM_FAVORITES, payload: data._id });

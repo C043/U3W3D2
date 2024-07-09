@@ -10,8 +10,6 @@ const MainSearch = () => {
   const jobs = useSelector(state => state.jobs.content);
   const dispatch = useDispatch();
 
-  const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
-
   const handleChange = e => {
     setQuery(e.target.value);
   };
