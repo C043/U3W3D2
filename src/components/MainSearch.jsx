@@ -3,16 +3,17 @@ import Job from "./Job";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { jobsAction, queryAction } from "../redux/actions";
+import { useState } from "react";
 
 const MainSearch = () => {
-  const query = useSelector(state => state.query.content);
+  const [query, setQuery] = useState("");
   const jobs = useSelector(state => state.jobs.content);
   const dispatch = useDispatch();
 
   const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
 
   const handleChange = e => {
-    dispatch(queryAction(e));
+    setQuery(e.target.value);
   };
 
   const handleSubmit = async e => {
