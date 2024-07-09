@@ -2,10 +2,10 @@ import { Row, Col } from "react-bootstrap";
 import { Star, StarFill, Trash } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { addToFavoritesAction, removeFromFavoritesAction } from "../redux/actions";
 
 const Job = ({ data }) => {
-  const addToFavorites = useDispatch();
-  const removeFavorite = useDispatch();
+  const dispatch = useDispatch();
   const favorites = useSelector(state => state.favorites.content);
   const location = useLocation();
   console.log(location);
@@ -19,20 +19,20 @@ const Job = ({ data }) => {
               <StarFill
                 type="button"
                 className="ms-auto flex-shrink-0"
-                onClick={() => removeFavorite({ type: "REMOVE_FROM_FAVORITES", payload: data._id })}
+                onClick={() => dispatch(removeFromFavoritesAction(data))}
               />
             ) : (
               <Star
                 type="button"
                 className="ms-auto flex-shrink-0"
-                onClick={() => addToFavorites({ type: "ADD_TO_FAVORITES", payload: data })}
+                onClick={() => dispatch(addToFavoritesAction(data))}
               />
             ))}
           {location.pathname === "/favorites" && (
             <Trash
               type="button"
               className="ms-auto flex-shrink-0"
-              onClick={() => removeFavorite({ type: "REMOVE_FROM_FAVORITES", payload: data._id })}
+              onClick={() => dispatch(removeFromFavoritesAction(data))}
             />
           )}
         </div>

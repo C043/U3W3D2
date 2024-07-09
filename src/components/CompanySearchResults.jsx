@@ -3,10 +3,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import Job from "./Job";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { companyJobsAction } from "../redux/actions";
 
 const CompanySearchResults = () => {
   const jobs = useSelector(state => state.companyJobs.content);
-  const dispatchJobs = useDispatch();
+  const dispatch = useDispatch();
 
   const params = useParams();
 
@@ -22,7 +23,7 @@ const CompanySearchResults = () => {
       const response = await fetch(baseEndpoint + params.company);
       if (response.ok) {
         const { data } = await response.json();
-        dispatchJobs({ type: "COMPANY_JOBS", payload: data });
+        dispatch(companyJobsAction(data));
       } else {
         alert("Error fetching results");
       }
